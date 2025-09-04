@@ -2,13 +2,13 @@ const loadingContainer = document.getElementById("loading-container");
 const wordContainer = document.getElementById("word-container");
 const display = (loader) => {
   if (loader) {
-    loadingContainer.classList.remove('hidden');
-    wordContainer.classList.add('hidden');
+    loadingContainer.classList.remove("hidden");
+    wordContainer.classList.add("hidden");
   } else {
-    wordContainer.classList.remove('hidden');
-    loadingContainer.classList.add('hidden');
+    wordContainer.classList.remove("hidden");
+    loadingContainer.classList.add("hidden");
   }
-}
+};
 
 const loadLesson = () => {
   fetch("https://openapi.programming-hero.com/api/levels/all")
@@ -31,20 +31,20 @@ const displayLesson = (lessons) => {
 };
 
 const removeActive = () => {
-    const removeBtn = document.getElementsByClassName('lessonButton');
-    for(const button of removeBtn){
-        button.classList.remove('active');
-    }
-}
+  const removeBtn = document.getElementsByClassName("lessonButton");
+  for (const button of removeBtn) {
+    button.classList.remove("active");
+  }
+};
 
 const loadWords = (lessonNo) => {
   display(true);
   fetch(`https://openapi.programming-hero.com/api/level/${lessonNo}`)
     .then((res) => res.json())
-        .then((data) => displayWords(data.data));
-    removeActive();
+    .then((data) => displayWords(data.data));
+  removeActive();
   const activeBtn = document.getElementById(`lessonBtn-${lessonNo}`);
-  activeBtn.classList.add('active');
+  activeBtn.classList.add("active");
 };
 
 const displayWords = (words) => {
@@ -82,7 +82,9 @@ const displayWords = (words) => {
         : "Pronunciation পাওয়া যাইনি"
     }"</h2>
                     <div class="mt-6 flex justify-between text-[28px] w-full px-[47px]">
-                    <button onclick="displayModal(${element.id})" class="btn bg-[#1A91FF1A]">
+                    <button onclick="displayModal(${
+                      element.id
+                    })" class="btn bg-[#1A91FF1A]">
                         <i class="fa-solid fa-circle-exclamation"></i> 
                     </button>
                     <button class="btn bg-[#1A91FF1A]">     
@@ -96,14 +98,14 @@ const displayWords = (words) => {
   display(false);
 };
 
-const displayModal = (id)=>{
+const displayModal = (id) => {
   fetch(`https://openapi.programming-hero.com/api/word/${id}`)
-    .then(res => res.json())
-    .then(data => {
+    .then((res) => res.json())
+    .then((data) => {
       // console.log(data);
       shownModal(data.data);
-  })
-}
+    });
+};
 // "word": "Eager",
 // "meaning": "আগ্রহী",
 // "pronunciation": "ইগার",
@@ -116,12 +118,16 @@ const displayModal = (id)=>{
 // "excited",
 // "keen"
 // ],
-const shownModal = info => {
-  const parent = document.getElementById('modal-content');
+const shownModal = (info) => {
+  const parent = document.getElementById("modal-content");
   parent.innerHTML = `
-  <h2 class="text-[36px] font-semibold text-[#000000] mb-8">${info.word} (<i class="fa-solid fa-microphone-lines"></i> :${info.pronunciation})</h2>
+  <h2 class="text-[36px] font-semibold text-[#000000] mb-8">${
+    info.word
+  } (<i class="fa-solid fa-microphone-lines"></i> :${info.pronunciation})</h2>
           <p class="text-[24px] font-semibold text-[#000000]">Meaning</p>
-          <p class="text-[24px] font-medium hind-font text-[#000000] mt-[10px] mb-[32px]">${info.meaning}</p>
+          <p class="text-[24px] font-medium hind-font text-[#000000] mt-[10px] mb-[32px]">${
+            info.meaning
+          }</p>
           <p class="text-[24px] font-semibold text-[#000000]">Example</p>
           <p class="text-[24px] text-[#000000] mt-2 mb-8">${info.sentence}</p>
           <p class="text-[24px] font-semibold text-[#000000] hind-font">সমার্থক শব্দ গুলো</p>
@@ -130,12 +136,33 @@ const shownModal = info => {
           </div>
   `;
   my_modal_5.showModal();
-}
+};
 
 const createBtn = (synonyms) => {
   console.log(synonyms);
-  const htmlElements = synonyms.map((el) => `<button class="btn">${el}</button>`);
-  return (htmlElements.join(" "));
-}
+  const htmlElements = synonyms.map(
+    (el) => `<button class="btn">${el}</button>`
+  );
+  return htmlElements.join(" ");
+};
+
+const btnSearch = document.getElementById("btn-search");
+btnSearch.addEventListener("click", () => {
+  const searchKey = document.getElementById("searchKey");
+  const searchKeyword = searchKey.value.trim().toLowerCase();
+  fetch("https://openapi.programming-hero.com/api/words/all")
+    .then((res) => res.json())
+    .then((data) => {
+      const ddata = data.data;
+      const finalData = ddata.filter((item) =>
+        item.word.toLowerCase().includes(searchKeyword)
+      );
+      displayWords(finalData);
+      // console.log(finalData);
+    });
+
+  searchKey.value = "";
+  removeActive();
+});
 
 loadLesson();

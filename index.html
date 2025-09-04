@@ -143,7 +143,21 @@
         ></div>
       </section>
 
-      <section id="loading-container" class="w-11/12 mx-auto bg-[#F8F8F8] p-8 my-10 rounded-[24px] gap-8 min-h-[204px] flex items-center justify-center hidden">
+      <section class="w-11/12 mx-auto p-8 my-10 flex items-center justify-center">
+        <div class="join">
+          <div>
+            <label class="input validator join-item">
+              <input id="searchKey" type="email" placeholder="Cat..." required />
+            </label>
+          </div>
+          <button id="btn-search" class="btn btn-primary join-item">Search</button>
+        </div>
+      </section>
+
+      <section
+        id="loading-container"
+        class="w-11/12 mx-auto bg-[#F8F8F8] p-8 my-10 rounded-[24px] gap-8 min-h-[204px] flex items-center justify-center hidden"
+      >
         <span class="loading loading-ring loading-xl"></span>
       </section>
 
@@ -165,11 +179,12 @@
     </main>
     <dialog id="my_modal_5" class="modal modal-bottom sm:modal-middle">
       <div class="modal-box max-w-[800px]">
-        <div id="modal-content" class="border-2 border-[#EDF7FF] rounded-[12px] p-6">
-          
-        </div>
+        <div
+          id="modal-content"
+          class="border-2 border-[#EDF7FF] rounded-[12px] p-6"
+        ></div>
         <div class="modal-action">
-          <form method="dialog" class="flex items-start" >
+          <form method="dialog" class="flex items-start">
             <!-- if there is a button in form, it will close the modal -->
             <button class="btn active">Complete Learning</button>
           </form>
