@@ -87,7 +87,7 @@ const displayWords = (words) => {
                     })" class="btn bg-[#1A91FF1A]">
                         <i class="fa-solid fa-circle-exclamation"></i> 
                     </button>
-                    <button class="btn bg-[#1A91FF1A]">     
+                    <button onclick="pronounceWord('${element.word}')" class="btn bg-[#1A91FF1A]">     
                         <i class="fa-solid fa-volume-high"></i>
                     </button>
                     </div>
@@ -164,5 +164,11 @@ btnSearch.addEventListener("click", () => {
   searchKey.value = "";
   removeActive();
 });
+
+function pronounceWord(word) {
+  const utterance = new SpeechSynthesisUtterance(word);
+  utterance.lang = "en-EN"; // English
+  window.speechSynthesis.speak(utterance);
+}
 
 loadLesson();
