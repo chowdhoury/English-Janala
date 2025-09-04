@@ -68,7 +68,7 @@ const displayWords = (words) => {
         : "Pronunciation পাওয়া যাইনি"
     }"</h2>
                     <div class="mt-6 flex justify-between text-[28px] w-full px-[47px]">
-                    <button onclick="my_modal_5.showModal()" class="btn bg-[#1A91FF1A]">
+                    <button onclick="displayModal(${element.id})" class="btn bg-[#1A91FF1A]">
                         <i class="fa-solid fa-circle-exclamation"></i> 
                     </button>
                     <button class="btn bg-[#1A91FF1A]">     
@@ -80,4 +80,47 @@ const displayWords = (words) => {
     parent.appendChild(child);
   });
 };
+
+const displayModal = (id)=>{
+  fetch(`https://openapi.programming-hero.com/api/word/${id}`)
+    .then(res => res.json())
+    .then(data => {
+      // console.log(data);
+      shownModal(data.data);
+  })
+}
+// "word": "Eager",
+// "meaning": "আগ্রহী",
+// "pronunciation": "ইগার",
+// "level": 1,
+// "sentence": "The kids were eager to open their gifts.",
+// "points": 1,
+// "partsOfSpeech": "adjective",
+// "synonyms": [
+// "enthusiastic",
+// "excited",
+// "keen"
+// ],
+const shownModal = info => {
+  const parent = document.getElementById('modal-content');
+  parent.innerHTML = `
+  <h2 class="text-[36px] font-semibold text-[#000000] mb-8">${info.word} (<i class="fa-solid fa-microphone-lines"></i> :${info.pronunciation})</h2>
+          <p class="text-[24px] font-semibold text-[#000000]">Meaning</p>
+          <p class="text-[24px] font-medium hind-font text-[#000000] mt-[10px] mb-[32px]">${info.meaning}</p>
+          <p class="text-[24px] font-semibold text-[#000000]">Example</p>
+          <p class="text-[24px] text-[#000000] mt-2 mb-8">${info.sentence}</p>
+          <p class="text-[24px] font-semibold text-[#000000] hind-font">সমার্থক শব্দ গুলো</p>
+          <div class="mt-[16px]">
+            ${createBtn(info.synonyms)}
+          </div>
+  `;
+  my_modal_5.showModal();
+}
+
+const createBtn = (synonyms) => {
+  console.log(synonyms);
+  const htmlElements = synonyms.map((el) => `<button class="btn">${el}</button>`);
+  return (htmlElements.join(" "));
+}
+
 loadLesson();
