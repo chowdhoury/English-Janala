@@ -1,3 +1,15 @@
+const loadingContainer = document.getElementById("loading-container");
+const wordContainer = document.getElementById("word-container");
+const display = (loader) => {
+  if (loader) {
+    loadingContainer.classList.remove('hidden');
+    wordContainer.classList.add('hidden');
+  } else {
+    wordContainer.classList.remove('hidden');
+    loadingContainer.classList.add('hidden');
+  }
+}
+
 const loadLesson = () => {
   fetch("https://openapi.programming-hero.com/api/levels/all")
     .then((res) => res.json())
@@ -26,6 +38,7 @@ const removeActive = () => {
 }
 
 const loadWords = (lessonNo) => {
+  display(true);
   fetch(`https://openapi.programming-hero.com/api/level/${lessonNo}`)
     .then((res) => res.json())
         .then((data) => displayWords(data.data));
@@ -45,6 +58,7 @@ const displayWords = (words) => {
                 <h2 class="text-[#292524] text-[34px] font-medium hind-font">নেক্সট Lesson এ যান</h2>
             </div>
         `;
+    display(false);
     return;
   }
   words.forEach((element) => {
@@ -79,6 +93,7 @@ const displayWords = (words) => {
         `;
     parent.appendChild(child);
   });
+  display(false);
 };
 
 const displayModal = (id)=>{
